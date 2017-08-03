@@ -33,6 +33,14 @@ void insertResults(result* left, const result* right) {
     left->goal=right->goal;
 }
 
+void printResult(result* r) {
+    printf("Result: %d %d %d\n", r->goal, r->calls, r->solutionlength);
+    for(int i=0; i < r->solutionlength; i++){
+        printf("%d ", r->solution[i]);
+    }
+    printf("\n");
+}
+
 result*coins0(int *coins, int goal, int coinslen){
     result*res=(result*) malloc(sizeof(result));
     int calls=quicksort(coins, 0, coinslen-1);
