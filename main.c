@@ -5,16 +5,20 @@
 #include "coins.h"
 #include "test_coins.h"
 
+int N_ITERS = 17;
+
 typedef void (*test_function_pointer)(void);
 void do_test(const char* name, test_function_pointer f) {
     printf("*%s*\n", name);
     calls=0;
     clock_t cpubegin = clock();
-    (*f)();
-    clock_t cputime = clock() - cpubegin;
-    cputime = cputime * 1000 / CLOCKS_PER_SEC;
-    printf("Time: %ld ms\n", cputime);
-    printf("Calls: %d\n", calls);
+    for (int i = 0; i < N_ITERS; i++) {
+        (*f)();
+    }
+    clock_t cpudelta = clock() - cpubegin;
+    double cputime = (double)cpudelta * 1000 / CLOCKS_PER_SEC;
+    printf("Average time: %lf ms\n", cputime / N_ITERS);
+    printf("Average calls: %lf\n", (double)calls / N_ITERS);
     printf("\n");
 }
 

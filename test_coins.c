@@ -15,19 +15,19 @@ int coinsLen_example = sizeof(coins_example) / sizeof(int);
 
 void test_coins0_example(){
     result* r = coins0(coins_example, goal_example, coinsLen_example);
-    printResult(r);
+    //printResult(r);
     free(r);
 }
 
 void test_coins1_example(){
     result* r = coins1(coins_example, 0, coinsLen_example-1, goal_example, 0);
-    printResult(r);
+    //printResult(r);
     free(r);
 }
 
 void test_coins2_example(){
     result* r = coins2(coins_example, 0, coinsLen_example-1, goal_example, 0);
-    printResult(r);
+    //printResult(r);
     free(r);
 }
 
@@ -46,18 +46,18 @@ void test_coins_initialize() {
 
 void test_coins0(){
     result* r = coins0(coins, goal, coinsLen);
-    printResult(r);
+    //printResult(r);
     free(r);
 }
 
 void test_coins1(){
     result* r = coins1(coins, 0, coinsLen-1, goal, 0);
-    printResult(r);
+    //printResult(r);
     free(r);
 }
 
 void test_coins2(){
     result* r = coins2(coins, 0, coinsLen-1, goal, 0);
-    printResult(r);
+    //printResult(r);
     free(r);
 }

@@ -41,15 +41,15 @@ void printResult(result* r) {
     printf("\n");
 }
 
-result*coins0(int *coins, int goal, int coinslen){
-    result*res=(result*) malloc(sizeof(result));
+result* coins0(int *coins, int goal, int coinslen){
+    result* res=(result*) malloc(sizeof(result));
     int calls=quicksort(coins, 0, coinslen-1);
     int*solution=NULL;
     int sollength=0;
     for(int i=0; i<coinslen; i++){
         if(coins[i] > goal) continue;
         goal-=coins[i];
-        solution=(int*)realloc(solution,i+1);
+        solution=(int*)realloc(solution, i+1);
         solution[i]=coins[i];
         sollength++;
     }
