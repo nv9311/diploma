@@ -6,6 +6,14 @@
 #include <mem.h>
 #include "common.h"
 
+int* generateRandomIntArray(int n, const int* denominations, int n_denominations){
+    int* array = (int*)malloc(sizeof(int)*n);
+    for (int i = 0; i < n; i++) {
+        array[i] = denominations[(rand() % n_denominations)];
+    }
+    return array;
+}
+
 void insertIntArray(int**array1, int*array1len, const int*array2, const int array2len){
     int originalArray1Len = *array1len;
     *array1len += array2len;
