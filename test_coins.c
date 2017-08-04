@@ -10,7 +10,7 @@
 #define VERBOSE 1
 
 // Example
-int goal_example=350;
+int goal_example = 350;
 int coins_example[] = {2, 1, 50, 1, 100, 2, 200, 2, 50, 2, 5, 1, 10, 2};
 int coinsLen_example = sizeof(coins_example) / sizeof(int);
 

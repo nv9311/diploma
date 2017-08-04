@@ -36,6 +36,7 @@ void swap(int* array, const int l, const int r){
 
 int quicksort(int* array, int left, int right){
     if(right<=left) return 1;
+    calls++;
     int p=array[left];
     int l=left;
     int r=right;
