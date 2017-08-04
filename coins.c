@@ -60,7 +60,7 @@ result* coins0(int *coins, int goal, int coinslen){
     return res;
 }
 
-result* coins1(int *coins, int left, int right, int goal, int solutionlength){
+result* coins1(int *coins, int left, int right, int goal, int solutionLen){
     if(right<left){
         return constructResult(NULL,goal,0);
     }
@@ -81,22 +81,22 @@ result* coins1(int *coins, int left, int right, int goal, int solutionlength){
         l+=1;
         r-=1;
     }
-    result* leftsol = coins1(coins, left, r, goal, solutionlength);
+    result* leftsol = coins1(coins, left, r, goal, solutionLen);
     if(l-r==2){
         consider(leftsol, p);
     }
-    result* rightsol = coins1(coins, l, right, leftsol->goal, solutionlength);
+    result* rightsol = coins1(coins, l, right, leftsol->goal, solutionLen);
 
     mergeResults(leftsol, rightsol);
     return leftsol;
 }
 
-result* coins2(int *coins, int left, int right, int goal, int sollength){
+result* coins2(int *coins, int left, int right, int goal, int solutionLen){
     if(right<left){
         return constructResult(NULL,goal,0);
     }
-    int p=coins[left];
-    if(right==left) {
+    int p = coins[left];
+    if(right==left){
         result* r = constructResult(NULL, goal, 0);
         consider(r, p);
         return r;
@@ -112,12 +112,12 @@ result* coins2(int *coins, int left, int right, int goal, int sollength){
         l+=1;
         r-=1;
     }
-    result* leftsol = coins2(coins, left, r, goal, sollength);
-    if((l-r)==2){
+    result* leftsol = coins2(coins, left, r, goal, solutionLen);
+    if(l-r==2){
         consider(leftsol, p);
     }
     if(leftsol->goal <= 0) return leftsol;
-    result* rightsol = coins2(coins, l, right, leftsol->goal, sollength);
+    result* rightsol = coins2(coins, l, right, leftsol->goal, solutionLen);
     mergeResults(leftsol, rightsol);
     return leftsol;
 }

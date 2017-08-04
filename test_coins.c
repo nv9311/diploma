@@ -7,7 +7,7 @@
 #include "common.h"
 #include "coins.h"
 
-#define VERBOSE 1
+#define VERBOSE 0
 
 // Example
 int goal_example = 350;
