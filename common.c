@@ -7,6 +7,20 @@
 #include <stdio.h>
 #include "common.h"
 
+void printIntArray(const int* array, int arrayLen){
+    printf("Array: ");
+    for (int i = 0; i < arrayLen; i++) {
+        printf("%d ", array[i]);
+    }
+    printf("\n\n");
+}
+
+int* cloneIntArray(const int* array, int arrayLen){
+    int* newArray = (int*)malloc(arrayLen * sizeof(int));
+    memcpy(newArray, array, arrayLen * sizeof(int));
+    return newArray;
+}
+
 int* generateRandomIntArray(int n, const int* denominations, int n_denominations){
     int* array = (int*)malloc(sizeof(int)*n);
     for (int i = 0; i < n; i++) {
@@ -21,11 +35,14 @@ void insertInt(int** array, int* arrayLen, int newInt) {
     (*array)[(*arrayLen)-1] = newInt;
 }
 
-void insertIntArray(int**array1, int*array1len, const int*array2, const int array2len){
+// array1 will contain all elements of array1 and array2
+// array2 will be freed
+void concatIntArray(int **array1, int *array1len, int *array2, int array2len){
     int originalArray1Len = *array1len;
     *array1len += array2len;
     *array1 = (int*)realloc(*array1, *array1len * sizeof(int));
     memcpy(*array1 + originalArray1Len, array2, array2len * sizeof(int));
+    free(array2);
 }
 
 void swap(int* array, const int l, const int r){

@@ -22,29 +22,26 @@ void consider(result* r, int coin) {
     r->goal -= coin;
 }
 
-/*result* consider(int*solution,int goal, int coin, int solutionlength){
-    if(coin>goal){
-        return constructResult(solution,goal,solutionlength);
-    }
-    else{
-        solution=(int*)realloc(solution, (solutionlength+1) * sizeof(int));
-        solution[solutionlength]=coin;
-        return constructResult(solution,goal-coin,solutionlength+1);
-    }
-}*/
-
-void insertResults(result* left, const result* right) {
-    insertIntArray(&left->solution, &left->solutionlength, right->solution, right->solutionlength);
+// left will contain left and right
+// right will be freed
+void mergeResults(result *left, result *right) {
+    concatIntArray(&left->solution, &left->solutionlength, right->solution, right->solutionlength);
     left->calls = right->calls + left->calls;
     left->goal=right->goal;
+    free(right);
 }
 
-void printResult(result* r) {
+void printResult(result* r){
     printf("Result: %d %d %d\n", r->goal, r->calls, r->solutionlength);
     for(int i=0; i < r->solutionlength; i++){
         printf("%d ", r->solution[i]);
     }
     printf("\n");
+}
+
+void freeResult(result* r){
+    free(r->solution);
+    free(r);
 }
 
 result* coins0(int *coins, int goal, int coinslen){
@@ -84,13 +81,13 @@ result* coins1(int *coins, int left, int right, int goal, int solutionlength){
         l+=1;
         r-=1;
     }
-    result*leftsol= coins1(coins, left, r, goal, solutionlength);
-    if((l-r)==2){
+    result* leftsol = coins1(coins, left, r, goal, solutionlength);
+    if(l-r==2){
         consider(leftsol, p);
     }
-    result*rightsol= coins1(coins, l, right, leftsol->goal, solutionlength);
+    result* rightsol = coins1(coins, l, right, leftsol->goal, solutionlength);
 
-    insertResults(leftsol, rightsol);
+    mergeResults(leftsol, rightsol);
     return leftsol;
 }
 
@@ -115,12 +112,12 @@ result* coins2(int *coins, int left, int right, int goal, int sollength){
         l+=1;
         r-=1;
     }
-    result*leftsol= coins2(coins, left, r, goal, sollength);
+    result* leftsol = coins2(coins, left, r, goal, sollength);
     if((l-r)==2){
         consider(leftsol, p);
     }
-    if(leftsol->goal <= 0)return leftsol;
-    result*rightsol= coins2(coins, l, right, leftsol->goal, sollength);
-    insertResults(leftsol, rightsol);
+    if(leftsol->goal <= 0) return leftsol;
+    result* rightsol = coins2(coins, l, right, leftsol->goal, sollength);
+    mergeResults(leftsol, rightsol);
     return leftsol;
 }
