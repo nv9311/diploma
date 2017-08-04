@@ -4,13 +4,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "coins.h"
-#include "common.h"
 
-result* constructResult(int*solution, int goal, int sollength){
+result* constructResult(linkedListInt* solutionFirst, linkedListInt* solutionLast, int goal){
     result* r = (result*)malloc(sizeof(result));
-    r->solution = solution;
-    r->solutionlength = sollength;
+    r->solutionFirst = solutionFirst;
+    r->solutionLast = solutionLast;
     r->goal = goal;
     r->calls = 1;
     return r;
@@ -18,55 +18,63 @@ result* constructResult(int*solution, int goal, int sollength){
 
 void consider(result* r, int coin) {
     if (coin > r->goal) return;
-    insertInt(&(r->solution), &(r->solutionlength), coin);
+    appendNode(&r->solutionFirst, &r->solutionLast, coin);
     r->goal -= coin;
 }
 
 // left will contain left and right
 // right will be freed
-void mergeResults(result *left, result *right) {
-    concatIntArray(&left->solution, &left->solutionlength, right->solution, right->solutionlength);
+void mergeResults(result* left, result* right) {
+    if (right->solutionFirst == NULL) {
+        assert(right->solutionLast == NULL);
+        free(right);
+        return;
+    }
+    if (left->solutionFirst == NULL) {
+        assert(left->solutionLast == NULL);
+        left->solutionFirst = right->solutionFirst;
+    }
+    else {
+        assert(left->solutionLast != NULL);
+        left->solutionLast->next = right->solutionFirst;
+    }
+    left->solutionLast = right->solutionLast;
     left->calls = right->calls + left->calls;
-    left->goal=right->goal;
+    left->goal = right->goal;
     free(right);
 }
 
 void printResult(result* r){
-    printf("Result: %d %d %d\n", r->goal, r->calls, r->solutionlength);
-    for(int i=0; i < r->solutionlength; i++){
-        printf("%d ", r->solution[i]);
-    }
-    printf("\n");
+    printf("Result: %d %d\n", r->goal, r->calls);
+    printLinkedListInt(r->solutionFirst);
 }
 
 void freeResult(result* r){
-    free(r->solution);
+    freeLinkedListInt(r->solutionFirst);
     free(r);
 }
 
-result* coins0(int *coins, int goal, int coinslen){
+result* coins0(int* coins, int goal, int coinslen){
     int calls = quicksort(coins, 0, coinslen-1);
-    int* solution = NULL;
-    int sollength = 0;
+    linkedListInt* solutionFirst = NULL;
+    linkedListInt* solutionLast = NULL;
     for(int i=0; i<coinslen; i++){
         if(coins[i] > goal) continue;
         goal -= coins[i];
-        sollength++;
-        solution = (int*)realloc(solution, sollength * sizeof(int));
-        solution[sollength-1] = coins[i];
+        appendNode(&solutionFirst, &solutionLast, coins[i]);
     }
-    result* res = constructResult(solution,goal,sollength);
+    result* res = constructResult(solutionFirst, solutionLast, goal);
     res->calls=calls;
     return res;
 }
 
-result* coins1(int *coins, int left, int right, int goal, int solutionLen){
+result* coins1(int* coins, int left, int right, int goal, int solutionLen){
     if(right<left){
-        return constructResult(NULL,goal,0);
+        return constructResult(NULL, NULL, goal);
     }
     int p = coins[left];
     if(right==left){
-        result* r = constructResult(NULL, goal, 0);
+        result* r = constructResult(NULL, NULL, goal);
         consider(r, p);
         return r;
     }
@@ -91,13 +99,13 @@ result* coins1(int *coins, int left, int right, int goal, int solutionLen){
     return leftsol;
 }
 
-result* coins2(int *coins, int left, int right, int goal, int solutionLen){
+result* coins2(int* coins, int left, int right, int goal, int solutionLen){
     if(right<left){
-        return constructResult(NULL,goal,0);
+        return constructResult(NULL, NULL, goal);
     }
     int p = coins[left];
     if(right==left){
-        result* r = constructResult(NULL, goal, 0);
+        result* r = constructResult(NULL, NULL, goal);
         consider(r, p);
         return r;
     }

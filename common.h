@@ -5,9 +5,22 @@
 #ifndef CLION_COMMON_H
 #define CLION_COMMON_H
 
-#endif //CLION_COMMON_H
+
+typedef struct linkedListInt{
+    int value;
+    struct linkedListInt* next;
+} linkedListInt;
 
 int calls;
+
+
+// LINKED-LIST FUNCTIONS
+void printLinkedListInt(const linkedListInt* linkedListFirst);
+void appendNode(linkedListInt** linkedListFirst, linkedListInt** linkedListLast, int value);
+void freeLinkedListInt(linkedListInt* linkedListFirst);
+
+
+// ARRAY FUNCTIONS
 
 void printIntArray(const int *array, int arrayLen);
 int* cloneIntArray(const int* array, int arrayLen);
@@ -20,3 +33,6 @@ void concatIntArray(int **array1, int *array1len, int *array2, int array2len);
 
 void swap(int* array, int l, int r);
 int quicksort(int* array, int left, int right);
+
+
+#endif //CLION_COMMON_H

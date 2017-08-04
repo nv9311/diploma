@@ -7,12 +7,47 @@
 #include <stdio.h>
 #include "common.h"
 
+
+// LINKED-LIST FUNCTIONS
+void printLinkedListInt(const linkedListInt* linkedListFirst){
+    printf("Linked list: ");
+    while (linkedListFirst != NULL){
+        printf("%d ", linkedListFirst->value);
+        linkedListFirst = linkedListFirst->next;
+    }
+    printf("\n");
+}
+
+void appendNode(linkedListInt** linkedListFirst, linkedListInt** linkedListLast, int value){
+    linkedListInt* newNode = (linkedListInt*)malloc(sizeof(linkedListInt));
+    newNode->value = value;
+    newNode->next = NULL;
+    if (*linkedListLast != NULL) {
+        (*linkedListLast)->next = newNode;
+    }
+    *linkedListLast = newNode;
+    if (*linkedListFirst == NULL) {
+        *linkedListFirst = newNode;
+    }
+}
+
+void freeLinkedListInt(linkedListInt* linkedListFirst){
+    while(linkedListFirst != NULL) {
+        linkedListInt* next = linkedListFirst->next;
+        free(linkedListFirst);
+        linkedListFirst = next;
+    }
+}
+
+
+// ARRAY FUNCTIONS
+
 void printIntArray(const int* array, int arrayLen){
     printf("Array: ");
     for (int i = 0; i < arrayLen; i++) {
         printf("%d ", array[i]);
     }
-    printf("\n\n");
+    printf("\n");
 }
 
 int* cloneIntArray(const int* array, int arrayLen){
