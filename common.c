@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <mem.h>
+#include <stdio.h>
 #include "common.h"
 
 int* generateRandomIntArray(int n, const int* denominations, int n_denominations){
@@ -15,9 +16,9 @@ int* generateRandomIntArray(int n, const int* denominations, int n_denominations
 }
 
 void insertInt(int** array, int* arrayLen, int newInt) {
-    *array = (int*)realloc(*array, (*arrayLen + 1) * sizeof(int));
-    *array[*arrayLen] = newInt;
     (*arrayLen)++;
+    *array = (int*)realloc(*array, (*arrayLen) * sizeof(int));
+    (*array)[(*arrayLen)-1] = newInt;
 }
 
 void insertIntArray(int**array1, int*array1len, const int*array2, const int array2len){
