@@ -14,7 +14,7 @@ typedef struct result{
     int calls;
 } result;
 
-void constructResult(result*r, int*solution, int goal, int sollength);
+result* constructResult(int*solution, int goal, int sollength);
 result* consider(int*solution,int goal, int coin, int solutionlength);
 void insertResults(result* left, const result* right);
 void printResult(result* r);

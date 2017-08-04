@@ -7,24 +7,24 @@
 #include "coins.h"
 #include "common.h"
 
-void constructResult(result*r, int*solution, int goal, int sollength){
+result* constructResult(int*solution, int goal, int sollength){
+    result* r = (result*)malloc(sizeof(result));
     r->solution=solution;
     r->solutionlength=sollength;
     r->goal=goal;
     r->calls=1;
+    return r;
 }
 
 result* consider(int*solution,int goal, int coin, int solutionlength){
-    result*r=(result*)malloc(sizeof(result));
     if(coin>goal){
-        constructResult(r,solution,goal,solutionlength);
+        return constructResult(solution,goal,solutionlength);
     }
     else{
         solution=(int*)realloc(solution, (solutionlength+1) * sizeof(int));
         solution[solutionlength]=coin;
-        constructResult(r,solution,goal-coin,solutionlength+1);
+        return constructResult(solution,goal-coin,solutionlength+1);
     }
-    return r;
 }
 
 void insertResults(result* left, const result* right) {
@@ -42,7 +42,6 @@ void printResult(result* r) {
 }
 
 result* coins0(int *coins, int goal, int coinslen){
-    result* res=(result*) malloc(sizeof(result));
     int calls=quicksort(coins, 0, coinslen-1);
     int*solution=NULL;
     int sollength=0;
@@ -53,16 +52,14 @@ result* coins0(int *coins, int goal, int coinslen){
         solution[i]=coins[i];
         sollength++;
     }
-    constructResult(res,solution,goal,sollength);
+    result* res = constructResult(solution,goal,sollength);
     res->calls=calls;
     return res;
 }
 
 result* coins1(int *coins, int left, int right, int goal, int solutionlength){
-    result*res=(result*)malloc(sizeof(result));
     if(right<left){
-        constructResult(res,NULL,goal,0);
-        return res;
+        return constructResult(NULL,goal,0);
     }
     int p=coins[left];
     if(right==left) return consider(NULL,goal,p,0);
@@ -90,10 +87,8 @@ result* coins1(int *coins, int left, int right, int goal, int solutionlength){
 }
 
 result* coins2(int *coins, int left, int right, int goal, int sollength){
-    result*res=(result*)malloc(sizeof(result));
     if(right<left){
-        constructResult(res,NULL,goal,0);
-        return res;
+        return constructResult(NULL,goal,0);
     }
     int p=coins[left];
     if(right==left) return consider(NULL,goal,p,0);

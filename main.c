@@ -5,7 +5,7 @@
 #include "coins.h"
 #include "test_coins.h"
 
-int N_ITERS = 17;
+int N_ITERS = 1;
 
 typedef void (*test_function_pointer)(void);
 void do_test(const char* name, test_function_pointer f) {
