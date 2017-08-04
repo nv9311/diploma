@@ -3,7 +3,6 @@
 //
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "test_coins.h"
 #include "common.h"
 #include "coins.h"

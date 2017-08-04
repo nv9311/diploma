@@ -1,8 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
 #include "common.h"
-#include "coins.h"
 #include "test_coins.h"
 
 int N_ITERS = 1;
