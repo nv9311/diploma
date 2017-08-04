@@ -14,6 +14,12 @@ int* generateRandomIntArray(int n, const int* denominations, int n_denominations
     return array;
 }
 
+void insertInt(int** array, int* arrayLen, int newInt) {
+    *array = (int*)realloc(*array, (*arrayLen + 1) * sizeof(int));
+    *array[*arrayLen] = newInt;
+    (*arrayLen)++;
+}
+
 void insertIntArray(int**array1, int*array1len, const int*array2, const int array2len){
     int originalArray1Len = *array1len;
     *array1len += array2len;

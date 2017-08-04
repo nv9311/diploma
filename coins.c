@@ -9,14 +9,20 @@
 
 result* constructResult(int*solution, int goal, int sollength){
     result* r = (result*)malloc(sizeof(result));
-    r->solution=solution;
-    r->solutionlength=sollength;
-    r->goal=goal;
-    r->calls=1;
+    r->solution = solution;
+    r->solutionlength = sollength;
+    r->goal = goal;
+    r->calls = 1;
     return r;
 }
 
-result* consider(int*solution,int goal, int coin, int solutionlength){
+void consider(result* r, int coin) {
+    if (coin > r->goal) return;
+    insertInt(&(r->solution), &(r->solutionlength), coin);
+    r->goal -= coin;
+}
+
+/*result* consider(int*solution,int goal, int coin, int solutionlength){
     if(coin>goal){
         return constructResult(solution,goal,solutionlength);
     }
@@ -25,7 +31,7 @@ result* consider(int*solution,int goal, int coin, int solutionlength){
         solution[solutionlength]=coin;
         return constructResult(solution,goal-coin,solutionlength+1);
     }
-}
+}*/
 
 void insertResults(result* left, const result* right) {
     insertIntArray(&left->solution, &left->solutionlength, right->solution, right->solutionlength);
@@ -42,15 +48,15 @@ void printResult(result* r) {
 }
 
 result* coins0(int *coins, int goal, int coinslen){
-    int calls=quicksort(coins, 0, coinslen-1);
-    int*solution=NULL;
-    int sollength=0;
+    int calls = quicksort(coins, 0, coinslen-1);
+    int* solution = NULL;
+    int sollength = 0;
     for(int i=0; i<coinslen; i++){
         if(coins[i] > goal) continue;
-        goal-=coins[i];
-        solution=(int*)realloc(solution, i+1);
-        solution[i]=coins[i];
+        goal -= coins[i];
         sollength++;
+        solution = (int*)realloc(solution, sollength * sizeof(int));
+        solution[sollength-1] = coins[i];
     }
     result* res = constructResult(solution,goal,sollength);
     res->calls=calls;
@@ -61,8 +67,12 @@ result* coins1(int *coins, int left, int right, int goal, int solutionlength){
     if(right<left){
         return constructResult(NULL,goal,0);
     }
-    int p=coins[left];
-    if(right==left) return consider(NULL,goal,p,0);
+    int p = coins[left];
+    if(right==left){
+        result* r = constructResult(NULL, goal, 0);
+        consider(r, p);
+        return r;
+    }
     calls++;
     int l=left;
     int r=right;
@@ -76,9 +86,7 @@ result* coins1(int *coins, int left, int right, int goal, int solutionlength){
     }
     result*leftsol= coins1(coins, left, r, goal, solutionlength);
     if((l-r)==2){
-        int leftcalls=leftsol->calls;
-        leftsol=consider(leftsol->solution,leftsol->goal,p,leftsol->solutionlength);
-        leftsol->calls=leftcalls;
+        consider(leftsol, p);
     }
     result*rightsol= coins1(coins, l, right, leftsol->goal, solutionlength);
 
@@ -91,7 +99,11 @@ result* coins2(int *coins, int left, int right, int goal, int sollength){
         return constructResult(NULL,goal,0);
     }
     int p=coins[left];
-    if(right==left) return consider(NULL,goal,p,0);
+    if(right==left) {
+        result* r = constructResult(NULL, goal, 0);
+        consider(r, p);
+        return r;
+    }
     calls++;
     int l=left;
     int r=right;
@@ -105,9 +117,7 @@ result* coins2(int *coins, int left, int right, int goal, int sollength){
     }
     result*leftsol= coins2(coins, left, r, goal, sollength);
     if((l-r)==2){
-        int leftcalls=leftsol->calls;
-        leftsol=consider(leftsol->solution,leftsol->goal,p,leftsol->solutionlength);
-        leftsol->calls=leftcalls;
+        consider(leftsol, p);
     }
     if(leftsol->goal <= 0)return leftsol;
     result*rightsol= coins2(coins, l, right, leftsol->goal, sollength);

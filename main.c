@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <stdlib.h>
 #include "common.h"
 #include "test_coins.h"
 
@@ -27,9 +28,9 @@ int main(){
     do_test("Coins1 Example", &test_coins1_example);
     do_test("Coins2 Example", &test_coins2_example);
 
-    test_coins_initialize();
-    do_test("Coins1", &test_coins1);
-    do_test("Coins2", &test_coins2);
+    //test_coins_initialize();
+    //do_test("Coins1", &test_coins1);
+    //do_test("Coins2", &test_coins2);
 
     return 0;
 }
