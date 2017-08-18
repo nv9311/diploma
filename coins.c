@@ -64,11 +64,12 @@ result* coins0(int* coins, int goal, int coinslen){
         appendNode(&solutionFirst, &solutionLast, coins[i]);
     }
     result* res = constructResult(solutionFirst, solutionLast, goal);
-    res->calls=calls;
+    res->calls = calls;
     return res;
 }
 
 result* coins1(int* coins, int left, int right, int goal, int solutionLen){
+    //solutionLen lahko stran dam ker ga nikjer ne rabim, rabila sem prej pri array
     if(right<left){
         return constructResult(NULL, NULL, goal);
     }

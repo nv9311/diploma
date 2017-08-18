@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+
 #include "common.h"
 #include "test_coins.h"
+
+#include "test_kruskal.h"
 
 int N_ITERS = 1;
 
 typedef void (*test_function_pointer)(void);
 void do_test(const char* name, test_function_pointer f) {
     printf("*%s*\n", name);
-    calls=0;
+    calls = 0;
     clock_t cpubegin = clock();
     for (int i = 0; i < N_ITERS; i++) {
         (*f)();
@@ -24,6 +27,7 @@ void do_test(const char* name, test_function_pointer f) {
 int main(){
     srand(time(NULL));   // should only be called once
 
+    //coins
     do_test("Coins0 Example", &test_coins0_example);
     do_test("Coins1 Example", &test_coins1_example);
     do_test("Coins2 Example", &test_coins2_example);
@@ -32,6 +36,11 @@ int main(){
     do_test("Coins0", &test_coins0);
     do_test("Coins1", &test_coins1);
     do_test("Coins2", &test_coins2);
+
+    //kruskal
+    test_kruskal_initialize();
+    do_test("MST Kruskal",&test_kruskalMST);
+    do_test("MST Kruskal Hybrid",&test_kruskalMSTHybrid);
 
     return 0;
 }

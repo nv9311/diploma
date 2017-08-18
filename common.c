@@ -6,6 +6,7 @@
 #include <mem.h>
 #include <stdio.h>
 #include "common.h"
+#include "kruskal.h"
 
 
 // LINKED-LIST FUNCTIONS
@@ -80,6 +81,14 @@ void concatIntArray(int **array1, int *array1len, int *array2, int array2len){
     free(array2);
 }
 
+//GRAPH FUNCTIONS
+
+graph* cloneGraph(const graph* g ){
+    graph* newGraph = constructGraph(g->V , g->E);
+    memcpy(newGraph->edges , g->edges , g->E * sizeof(edge));
+    return newGraph;
+}
+
 void swap(int* array, const int l, const int r){
     int tmp=array[l];
     array[l]=array[r];
@@ -102,3 +111,4 @@ int quicksort(int* array, int left, int right){
     }
     return quicksort(array, left, r) + quicksort(array, l, right);
 }
+
