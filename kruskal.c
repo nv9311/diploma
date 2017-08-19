@@ -266,19 +266,3 @@ resultMST* callKruskalHybrid(graph* g){
     free(forest);
     return result;
 }
-
-int test(){
-
-
-    //resultMST * result = MSTKruskal(g);
-    /*
-    resultMST* result = callKruskalHybrid(g);
-
-    printResultMST(result);
-
-    free(g->edges);
-    free(g);
-    freeResultMST(result);
-    */
-    return 0;
-}

@@ -7,7 +7,7 @@
 #include "kruskal.h"
 #include "common.h"
 
-#define VERBOSE 1
+#define VERBOSE 0
 
 int V = 9;
 int E = 14;

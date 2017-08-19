@@ -7,6 +7,8 @@
 
 #include "test_kruskal.h"
 
+#include "activity_selection.h"
+
 int N_ITERS = 1;
 
 typedef void (*test_function_pointer)(void);
@@ -41,6 +43,9 @@ int main(){
     test_kruskal_initialize();
     do_test("MST Kruskal",&test_kruskalMST);
     do_test("MST Kruskal Hybrid",&test_kruskalMSTHybrid);
+
+    //activitySelector
+    test();
 
     return 0;
 }

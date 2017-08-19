@@ -1,0 +1,161 @@
+//
+// Created by Nina on 19.8.2017.
+//
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "activity_selection.h"
+#include "common.h"
+
+//activities ordered by monotoically increasing finish time
+//each activity has start time and finish time, we want to take a maximum size subset of mutually compatible activities
+
+void swapACT(activity* activities , const int left , const int right){
+    activity tmp = activities[left];
+    activities[left] = activities[right];
+    activities[right] = tmp;
+}
+
+resultActivities* constructResultActivities(linkedListActivity* solutionFirst , linkedListActivity* solutionLast , int calls){
+    resultActivities* r = (resultActivities*)malloc(sizeof(resultActivities));
+    r->solutionFirst = solutionFirst;
+    r->solutionLast = solutionLast;
+    //r->solLength = 0;
+    r->calls = 1;
+    return r;
+}
+
+void appendActivityToResult(linkedListActivity** linkedListFirst , linkedListActivity** linkedListLast , activity a){
+    linkedListActivity* newActivity = (linkedListActivity*)malloc(sizeof(linkedListActivity));
+    newActivity->a = a;
+    newActivity->next = NULL;
+    if (*linkedListLast != NULL) {
+        (*linkedListLast)->next = newActivity;
+    }
+    *linkedListLast = newActivity;
+    if (*linkedListFirst == NULL) {
+        *linkedListFirst = newActivity;
+    }
+}
+
+void printLinkedListActivity(const linkedListActivity* linkedListFirst){
+    printf("List of compatible Activities: \n");
+    while (linkedListFirst != NULL){
+        printf("%d. duration: %d - %d\n", linkedListFirst->a.activityNumber , linkedListFirst->a.startTime , linkedListFirst->a.finishTime);
+        linkedListFirst = linkedListFirst->next;
+    }
+    printf("\n");
+}
+
+void printResultActivity(resultActivities * result){
+    printf("Result:\n");
+    printf("Number of Calls: %d \n" , result->calls);
+    printLinkedListActivity(result->solutionFirst);
+}
+
+void freeLinkedListActivity(linkedListActivity* linkedListFirst){
+    while(linkedListFirst != NULL) {
+        linkedListActivity* next = linkedListFirst->next;
+        free(linkedListFirst);
+        linkedListFirst = next;
+    }
+}
+
+void freeResultActivity(resultActivities* r){
+    freeLinkedListActivity(r->solutionFirst);
+    free(r);
+}
+
+int quicksortActivities(activity* activities , int left , int right){
+    if(right <= left) return 1;
+    //calls++;
+    activity a = activities[left];
+    int l = left;
+    int r = right;
+    while(l <= r){
+        while(activities[l].finishTime < a.finishTime) l += 1;
+        while(activities[r].finishTime > a.finishTime) r -= 1;
+        if(l > r)break;
+        swapACT(activities , l , r);
+        l += 1;
+        r -= 1;
+    }
+    return quicksortActivities(activities, left, r) + quicksortActivities(activities, l, right);
+}
+
+resultActivities* activitySelector(activity* activities , int numActivities){
+    int calls = quicksortActivities(activities , 0 , numActivities - 1);
+    /*
+    for(int i = 0 ; i < numActivities ; i++){
+        printf("%d  %d - %d\n" , activities[i].activityNumber, activities[i].startTime , activities[i].finishTime);
+    }
+     */
+    linkedListActivity* solutionFirst = NULL;
+    linkedListActivity* solutionLast = NULL;
+
+    int i = 0;
+    appendActivityToResult(&solutionFirst , &solutionLast , activities[i]);
+    for(int m = 1 ; m < numActivities ; m++){
+        if(activities[m].startTime >= activities[i].finishTime){
+            appendActivityToResult(&solutionFirst , &solutionLast , activities[m]);
+            i = m;
+        }
+    }
+    resultActivities* result = constructResultActivities(solutionFirst , solutionLast , calls);
+    result->calls = calls;
+    return result;
+}
+
+int activitySelectorHybrid(activity* activities , int left , int right){
+    if(right < left){
+        return 1;
+    }
+    //calls++;
+    activity a = activities[left];
+    int l = left;
+    int r = right;
+    while(l <= r){
+        while(activities[l].finishTime < a.finishTime) l += 1;
+        while(activities[r].finishTime > a.finishTime) r -= 1;
+        if(l > r)break;
+        swapACT(activities , l , r);
+        l += 1;
+        r -= 1;
+    }
+    return quicksortActivities(activities, left, r) + quicksortActivities(activities, l, right);
+}
+
+int test(){
+    //int numActivities = 8;
+    //activity* activities = (activity*)malloc(sizeof(activity) * numActivities);
+
+    //activity activities[8] = {{0, 1, 3},{1, 0, 4},{2, 1, 2},{3, 4, 6},{4, 2, 9},{5, 5, 8},{6, 3, 5},{7, 4, 5}};
+    /*
+    Result:
+    Number of Calls: 8
+    List of compatible Activities:
+    2. duration: 1 - 2
+    6. duration: 3 - 5
+    5. duration: 5 - 8
+    */
+
+
+    activity activities[12] = {{0,44,86}, {1,7,25}, {2,37,96} , {3,83,89} , {4,27,84} , {5,49,62} , {6,44,70} , {7,44,84} , {8,16,17} , {9,58,94} , {10,27,79} , {11,26,57}};
+    /*
+     *  Result:
+        Number of Calls: 12
+        List of compatible Activities:
+        8. duration: 16 - 17
+        11. duration: 26 - 57
+        3. duration: 83 - 89
+     */
+    int numActivities = 12;
+    resultActivities* result = activitySelector(activities , numActivities);
+
+    printResultActivity(result);
+
+    //free(activities);
+    freeResultActivity(result);
+
+    return 0;
+}

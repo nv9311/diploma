@@ -1,0 +1,29 @@
+//
+// Created by Nina on 19.8.2017.
+//
+
+#ifndef CLION_ACTIVITY_SELECTION_H
+#define CLION_ACTIVITY_SELECTION_H
+
+typedef struct Activity{
+    int activityNumber;
+    int startTime;
+    int finishTime;
+}activity;
+
+typedef struct linkedListActivity{
+    activity a;
+    struct linkedListActivity* next;
+} linkedListActivity;
+
+typedef struct resultActivities{
+    linkedListActivity * solutionFirst;
+    linkedListActivity * solutionLast;
+    //int goal;
+    //int solLength;
+    int calls;
+} resultActivities;
+
+int test();
+
+#endif //CLION_ACTIVITY_SELECTION_H

@@ -29,6 +29,4 @@ resultMST* callKruskalHybrid(graph* g);
 void printResultMST(resultMST * result);
 void freeResultMST(resultMST* r);
 
-int test();
-
 #endif //CLION_KRUSKAL_H
