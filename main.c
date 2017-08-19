@@ -7,7 +7,7 @@
 
 #include "test_kruskal.h"
 
-#include "activity_selection.h"
+#include "test_activity_selection.h"
 
 int N_ITERS = 1;
 
@@ -45,7 +45,10 @@ int main(){
     do_test("MST Kruskal Hybrid",&test_kruskalMSTHybrid);
 
     //activitySelector
-    test();
+    test_activity_selection_initialize();
+    do_test("Activity Selection" , &test_activity_selector);
+    do_test("Activity Selection Hybrid" , &test_activity_selector_hybrid);
+
 
     return 0;
 }

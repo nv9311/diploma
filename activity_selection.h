@@ -24,6 +24,13 @@ typedef struct resultActivities{
     int calls;
 } resultActivities;
 
+
+
+activity* cloneActivities(const activity* activities , int activitiesLen);
+resultActivities* activitySelectorHybrid(activity* activities , int left , int right, int* i);
+resultActivities* activitySelector(activity* activities , int numActivities);
+void freeResultActivity(resultActivities* r);
+void printResultActivity(resultActivities * result);
 int test();
 
 #endif //CLION_ACTIVITY_SELECTION_H
