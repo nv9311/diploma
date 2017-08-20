@@ -9,6 +9,8 @@
 
 #include "test_activity_selection.h"
 
+#include "fractional_knapsack.h"
+
 int N_ITERS = 1;
 
 typedef void (*test_function_pointer)(void);
@@ -49,6 +51,6 @@ int main(){
     do_test("Activity Selection" , &test_activity_selector);
     do_test("Activity Selection Hybrid" , &test_activity_selector_hybrid);
 
-
+    testf();
     return 0;
 }
