@@ -5,26 +5,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "fractional_knapsack.h"
-
-typedef struct Item{
-    int value;
-    int weight;
-    double amountTaken;
-}item;
-
-typedef struct linkedListItem{
-    item i;
-    struct linkedListItem* next;
-}linkedListItem;
-
-typedef struct resultKnapsack{
-    linkedListItem* solutionFirst;
-    linkedListItem* solutionLast;
-    int calls;
-    double totalProfit;
-    int W;
-}resultKnapsack;
 
 
 void swapItems(item* items , const int left , const int right){
@@ -76,6 +58,42 @@ void mergeResultsItems(resultKnapsack* left, resultKnapsack* right){
     left->W = right->W;
     left->totalProfit = right->totalProfit;
     free(right);
+}
+
+item* cloneItems(const item* items , const int numItems){
+    item* newItems = (item*)malloc(sizeof(item) * numItems);
+    memcpy(newItems, items, numItems * sizeof(item));
+    return newItems;
+}
+
+void printLinkedListItems(const linkedListItem* linkedListFirst){
+    printf("List of items taken: \n");
+    while (linkedListFirst != NULL){
+        printf("item: (value: %d , weight: %d ) amount taken: %.2lf\n", linkedListFirst->i.value , linkedListFirst->i.weight , linkedListFirst->i.amountTaken);
+        linkedListFirst = linkedListFirst->next;
+    }
+    printf("\n");
+}
+
+void printResultKnapsack(resultKnapsack * result){
+    printf("Result:\n");
+    printf("Number of Calls: %d \n" , result->calls);
+    printf("Total profit: %.2lf\n", result->totalProfit);
+    printf("W: %d\n", result->W);
+    printLinkedListItems(result->solutionFirst);
+}
+
+void freeLinkedListItems(linkedListItem* linkedListFirst){
+    while(linkedListFirst != NULL) {
+        linkedListItem* next = linkedListFirst->next;
+        free(linkedListFirst);
+        linkedListFirst = next;
+    }
+}
+
+void freeResultKnapsack(resultKnapsack* r){
+    freeLinkedListItems(r->solutionFirst);
+    free(r);
 }
 
 int quicksortItems(item* items , int left , int right){
@@ -172,9 +190,11 @@ resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right ,int
 
 int testf(){
     item items[3] ={{60 , 10} , {100 , 20},{120 , 30}};
-    //resultKnapsack* result = fractionalKnapsack(items , 50 , 3);
-    resultKnapsack* result = fractionalKnapsackHybrid(items , 0 , 2 , 50 , 0.0);
-    printf("profit: %.2lf W: %d" , result->totalProfit , result->W);
+    resultKnapsack* result = fractionalKnapsack(items , 50 , 3);
+    //resultKnapsack* result = fractionalKnapsackHybrid(items , 0 , 2 , 50 , 0.0);
+    //printf("profit: %.2lf W: %d" , result->totalProfit , result->W);
+    printResultKnapsack(result);
+    freeResultKnapsack(result);
     return 0;
 }
 

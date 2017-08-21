@@ -9,7 +9,7 @@
 
 #include "test_activity_selection.h"
 
-#include "fractional_knapsack.h"
+#include "test_fractional_knapsack.h"
 
 int N_ITERS = 1;
 
@@ -51,6 +51,10 @@ int main(){
     do_test("Activity Selection" , &test_activity_selector);
     do_test("Activity Selection Hybrid" , &test_activity_selector_hybrid);
 
-    testf();
+    //fractionalKnapsack
+    test_fractional_knapsack_initialize();
+    do_test("Fractional Knapsack" , &test_fractional_knapsack);
+    do_test("Fractional Knapsack Hybrid" , &test_fractional_knapsack_hybrid);
+    //testf();
     return 0;
 }
