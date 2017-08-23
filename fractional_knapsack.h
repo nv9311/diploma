@@ -26,7 +26,7 @@ typedef struct resultKnapsack{
 
 resultKnapsack* fractionalKnapsack(item* items , int W , int itemsLen);
 resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right ,int W , double profit);
-item* cloneItems(const item* items , const int numItems);
+item* cloneItems(const item* items , int numItems);
 void printResultKnapsack(resultKnapsack * result);
 void freeResultKnapsack(resultKnapsack* r);
 

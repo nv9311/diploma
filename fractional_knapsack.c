@@ -157,7 +157,7 @@ void considerItems(resultKnapsack* r , item i){
     }
 }
 
-resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right ,int W , double profit){
+resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right , int W , double profit){
     if(right < left){
         return constructResultKnapsack(NULL , NULL , 1 , profit , W);
     }
