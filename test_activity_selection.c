@@ -10,7 +10,6 @@
 #define VERBOSE 1
 
 int numActivities = 12;
-int i = -1;
 //activity* activities = NULL;
 //activity activities[8] = {{0, 1, 3},{1, 0, 4},{2, 1, 2},{3, 4, 6},{4, 2, 9},{5, 5, 8},{6, 3, 5},{7, 4, 5}};
 /*List of compatible Activities:
@@ -23,20 +22,22 @@ activity activities[12] = {{0,44,86}, {1,7,25}, {2,37,96} , {3,83,89} , {4,27,84
 
 
 void test_activity_selection_initialize(){
-//to do for other examples
+    //to do for other examples
 }
+
 void test_activity_selector(){
-activity* activities_copy = cloneActivities(activities , numActivities);
-resultActivities* r = activitySelector(activities_copy , numActivities);
-if (VERBOSE) printResultActivity(r);
-freeResultActivity(r);
-free(activities_copy);
+    activity* activities_copy = cloneActivities(activities , numActivities);
+    resultActivities* r = activitySelector(activities_copy , numActivities);
+    if (VERBOSE) printResultActivity(r);
+    freeResultActivity(r);
+    free(activities_copy);
 }
 
 void test_activity_selector_hybrid(){
-activity* activities_copy = cloneActivities(activities , numActivities);
-resultActivities* r = activitySelectorHybrid(activities_copy , 0 , numActivities - 1 , &i);
-if (VERBOSE) printResultActivity(r);
-freeResultActivity(r);
-free(activities_copy);
+    int finishTime = INT_MIN;
+    activity* activities_copy = cloneActivities(activities , numActivities);
+    resultActivities* r = activitySelectorHybrid(activities_copy , 0 , numActivities - 1 , &finishTime);
+    if (VERBOSE) printResultActivity(r);
+    freeResultActivity(r);
+    free(activities_copy);
 }

@@ -134,28 +134,24 @@ resultActivities* activitySelector(activity* activities , int numActivities){
     return result;
 }
 
-void considerActivities(resultActivities* r , int* i , int m , activity* activities, activity a){
-    if(*i == -1){
+void considerActivities(resultActivities* r , activity a , int* previousFinishTime){
+
+    if(a.startTime >= *previousFinishTime){
         appendActivityToResult(&(r->solutionFirst) , &(r->solutionLast) , a);
-        *i = m;
-        return;
-    }
-    if(a.startTime >= activities[*i].finishTime){
-        appendActivityToResult(&(r->solutionFirst) , &(r->solutionLast) , a);
-        *i = m;
+        *previousFinishTime = a.finishTime;
     }
 }
 
 //there is no condition to make less recursive calls because we must go through all the activities
 //there is no last finish time
-resultActivities* activitySelectorHybrid(activity* activities , int left , int right, int* i){
+resultActivities* activitySelectorHybrid(activity* activities , int left , int right, int* finishTime){
     if(right < left){
         return constructResultActivities(NULL , NULL , 1);
     }
     activity a = activities[left];
     if(right == left){
         resultActivities* result = constructResultActivities(NULL , NULL , 1);
-        considerActivities(result , i , left , activities , a);
+        considerActivities(result , a , finishTime);
         return result;
     }
     //calls++;
@@ -169,11 +165,11 @@ resultActivities* activitySelectorHybrid(activity* activities , int left , int r
         l += 1;
         r -= 1;
     }
-    resultActivities* leftsol = activitySelectorHybrid(activities , left , r , i);
+    resultActivities* leftsol = activitySelectorHybrid(activities , left , r , finishTime);
     if(l - r == 2){
-        considerActivities(leftsol , i , left , activities , a);
+        considerActivities(leftsol , a , finishTime);
     }
-    resultActivities* rightsol = activitySelectorHybrid(activities , l , right , i);
+    resultActivities* rightsol = activitySelectorHybrid(activities , l , right , finishTime);
     mergeResultsActivities(leftsol , rightsol);
     return leftsol;
 }
@@ -203,9 +199,9 @@ int test(){
         3. duration: 83 - 89
      */
     int numActivities = 12;
-    int i = -1;
+    int finishTime = INT_MIN;
     //resultActivities* result = activitySelector(activities , numActivities);
-    resultActivities* result = activitySelectorHybrid(activities , 0 , numActivities - 1 , &i);
+    resultActivities* result = activitySelectorHybrid(activities , 0 , numActivities - 1 , &finishTime);
 
 
     printResultActivity(result);

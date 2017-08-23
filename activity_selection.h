@@ -9,7 +9,7 @@ typedef struct Activity{
     int activityNumber;
     int startTime;
     int finishTime;
-}activity;
+} activity;
 
 typedef struct linkedListActivity{
     activity a;
@@ -17,8 +17,8 @@ typedef struct linkedListActivity{
 } linkedListActivity;
 
 typedef struct resultActivities{
-    linkedListActivity * solutionFirst;
-    linkedListActivity * solutionLast;
+    linkedListActivity* solutionFirst;
+    linkedListActivity* solutionLast;
     //int goal;
     //int solLength;
     int calls;
