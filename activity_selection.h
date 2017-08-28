@@ -31,6 +31,6 @@ resultActivities* activitySelectorHybrid(activity* activities , int left , int r
 resultActivities* activitySelector(activity* activities , int numActivities);
 void freeResultActivity(resultActivities* r);
 void printResultActivity(resultActivities * result);
-int test();
+int testa();
 
 #endif //CLION_ACTIVITY_SELECTION_H

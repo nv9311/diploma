@@ -23,6 +23,11 @@ typedef struct Graph{
     edge * edges;
 }graph;
 
+typedef struct Node{
+    int parent;
+    int rank;
+}node;
+
 int calls;
 
 
@@ -47,6 +52,11 @@ void concatIntArray(int **array1, int *array1len, int *array2, int array2len);
 // GRAPH FUNCTIONS
 
 graph* cloneGraph(const graph* e);
+node makeSet(int x);
+
+int findSet(int x , node *  forest);
+void link(int x , int y , node * forest);
+void unionNodes(int x , int y , node * forest);
 
 
 void swap(int* array, int l, int r);

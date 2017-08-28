@@ -174,7 +174,7 @@ resultActivities* activitySelectorHybrid(activity* activities , int left , int r
     return leftsol;
 }
 
-int test(){
+int testa(){
     //int numActivities = 8;
     //activity* activities = (activity*)malloc(sizeof(activity) * numActivities);
 

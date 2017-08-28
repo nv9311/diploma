@@ -5,10 +5,6 @@
 #ifndef CLION_KRUSKAL_H
 #define CLION_KRUSKAL_H
 
-typedef struct Node{
-    int parent;
-    int rank;
-}node;
 
 typedef struct linkedListEdge{
     edge e;

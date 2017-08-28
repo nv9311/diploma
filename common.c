@@ -89,6 +89,38 @@ graph* cloneGraph(const graph* g ){
     return newGraph;
 }
 
+node makeSet(int x){
+    node n;
+    n.parent = x;
+    n.rank = 0;
+    return n;
+}
+
+int findSet(int x , node *  forest){
+    int newParent = forest[x].parent;
+    if(x != newParent){
+        newParent = findSet(newParent , forest);
+    }
+    return newParent;
+}
+void link(int x , int y , node * forest){
+    int rankX = forest[x].rank;
+    int rankY = forest[y].rank;
+    if(rankX > rankY){
+        forest[y].parent = x;
+    }
+    else{
+        forest[x].parent = y;
+        if( rankX == rankY ){
+            forest[x].rank = rankX + 1;
+        }
+    }
+}
+
+void unionNodes(int x , int y , node * forest){
+    link(findSet( x , forest ) , findSet( y , forest) , forest);
+}
+
 void swap(int* array, const int l, const int r){
     int tmp=array[l];
     array[l]=array[r];

@@ -11,6 +11,8 @@
 
 #include "test_fractional_knapsack.h"
 
+#include "task_scheduling.h"
+
 int N_ITERS = 1;
 
 typedef void (*test_function_pointer)(void);
@@ -56,5 +58,7 @@ int main(){
     do_test("Fractional Knapsack" , &test_fractional_knapsack);
     do_test("Fractional Knapsack Hybrid" , &test_fractional_knapsack_hybrid);
     //testf();
+
+    test();
     return 0;
 }
