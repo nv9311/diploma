@@ -112,7 +112,7 @@ void link(int x , int y , node * forest){
     else{
         forest[x].parent = y;
         if( rankX == rankY ){
-            forest[x].rank = rankX + 1;
+            forest[y].rank = rankY + 1;
         }
     }
 }

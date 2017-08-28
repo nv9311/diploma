@@ -61,6 +61,8 @@ resultTasks* constructResultTasks (linkedListTask* solutionFirst , linkedListTas
 void mergeResultsTasks(resultTasks* left, resultTasks* right){
     if (right->solutionFirst == NULL) {
         assert(right->solutionLast == NULL);
+        left->calls = right->calls + left->calls;
+        left->penalty = right->penalty;
         free(right);
         return;
     }
@@ -137,7 +139,6 @@ void considerTasks(resultTasks* result , task t , node* disjointSetForest ,  int
     }
     else{
         result->penalty += t.penalty;
-        printf("%d \n" , result->penalty);
     }
 }
 
@@ -163,13 +164,10 @@ resultTasks* taskSchedulerHybridRecursive(task* tasks , int left , int right , n
         r -= 1;
     }
     resultTasks* leftsol = taskSchedulerHybridRecursive(tasks , left , r , disjointSetForest , latestAvailable , penalty);
-    printf("left: %d\n" , leftsol->penalty);
     if(l - r == 2){
         considerTasks(leftsol , t , disjointSetForest , latestAvailable);
-        printf("if: %d\n" , leftsol->penalty);
     }
     resultTasks* rightsol = taskSchedulerHybridRecursive(tasks , l , right , disjointSetForest , latestAvailable , leftsol->penalty);
-    printf("right: %d\n" , rightsol->penalty);
     mergeResultsTasks(leftsol, rightsol);
     //calls = leftsol->calls;
     return leftsol;
