@@ -1,6 +1,3 @@
-//
-// Created by Nina on 21.8.2017.
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -139,7 +136,6 @@ void considerTasks(resultTasks* result , task t , node* disjointSetForest ,  int
     }
     else{
         result->penalty += t.penalty;
-        printf("penaltcons: %d id: %d dead: %d\n", result->penalty, t.id , t.deadline);
     }
 }
 
@@ -149,7 +145,6 @@ resultTasks* taskSchedulerHybridRecursive(task* tasks , int left , int right , n
     }
     task t = tasks[left];
     if(right == left){
-        printf("r=l %d dead: %d \n", t.id , t.deadline);
         resultTasks* result = constructResultTasks(NULL , NULL , penalty);
         considerTasks(result , t , disjointSetForest , latestAvailable);
         return result;
@@ -167,8 +162,7 @@ resultTasks* taskSchedulerHybridRecursive(task* tasks , int left , int right , n
     }
     resultTasks* leftsol = taskSchedulerHybridRecursive(tasks , left , r , disjointSetForest , latestAvailable , penalty);
     if(l - r == 2){
-        considerTasks(leftsol , t , disjointSetForest , latestAvailable);
-        printf("l-r: %d dead: %d \n", t.id , t.deadline);
+        considerTasks(leftsol , tasks[r + 1] , disjointSetForest , latestAvailable);
     }
     resultTasks* rightsol = taskSchedulerHybridRecursive(tasks , l , right , disjointSetForest , latestAvailable , leftsol->penalty);
     mergeResultsTasks(leftsol, rightsol);
@@ -208,12 +202,6 @@ resultTasks* taskScheduler(task* tasks , int numTasks){
     }
 
     int calls = quicksortTasks(tasks , 0 , numTasks - 1);
-    printf("\n");
-    for(int i=0; i< numTasks;i++){
-        printf("quick: %d\n" , tasks[i].id);
-    }
-    printf("\n");
-
 
     for(int i = 1 ; i <= numTasks ; i++){
         j = latestAvailable[findSet(tasks[i - 1].deadline , disjointSetForest)];
@@ -227,7 +215,6 @@ resultTasks* taskScheduler(task* tasks , int numTasks){
         }
         else{
             penalty += tasks[i - 1].penalty;
-            printf("penal: %d id:%d dead: %d\n", penalty , tasks[i-1].id , tasks[i-1].deadline);
         }
     }
     resultTasks* result = constructResultTasks(solutionFirst , solutionLast , penalty);
@@ -236,16 +223,7 @@ resultTasks* taskScheduler(task* tasks , int numTasks){
     free(disjointSetForest);
     return result;
 }
-void test(){
-    int numTasks = 5;
-    //task* tasks = (task*)malloc(sizeof(task) * numTasks);
-    task tasks2[4] = {{1 , 2 , 5} , {2 , 2 , 5} , {3 , 1 , 100} , {4 , 4 , 10}};
-    task tasks[5] = {{1 , 2 , 100} , {2 , 2 , 27} , {3 , 3 , 15} , {4 , 1 , 19} , {5 , 1 , 25}};
-    resultTasks* result = taskSchedulerHybrid(tasks , numTasks);
-    //printIntArray(scheduler , numTasks);
-    printResultTasks(result);
-    freeResultTasks(result);
-}
+
 
 
 

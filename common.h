@@ -1,6 +1,3 @@
-//
-// Created by Nina on 3.8.2017.
-//
 
 #ifndef CLION_COMMON_H
 #define CLION_COMMON_H
@@ -11,17 +8,6 @@ typedef struct linkedListInt{
     struct linkedListInt* next;
 } linkedListInt;
 
-typedef struct Edge{
-    int source;
-    int dest;
-    int weight;
-}edge;
-
-typedef struct Graph{
-    int V;
-    int E;
-    edge * edges;
-}graph;
 
 typedef struct Node{
     int parent;
@@ -49,16 +35,15 @@ void insertInt(int** array, int* arrayLen, int newInt);
 void concatIntArray(int **array1, int *array1len, int *array2, int array2len);
 
 
-// GRAPH FUNCTIONS
+// DISJOINT SET  FUNCTIONS
 
-graph* cloneGraph(const graph* e);
 node makeSet(int x);
-
 int findSet(int x , node *  forest);
 void link(int x , int y , node * forest);
 void unionNodes(int x , int y , node * forest);
 
 
+// QUICKSORT
 void swap(int* array, int l, int r);
 int quicksort(int* array, int left, int right);
 

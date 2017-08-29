@@ -1,25 +1,11 @@
-//
-// Created by Nina on 10.8.2017.
-//
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <mem.h>
 #include "assert.h"
 
 #include "common.h"
 #include "kruskal.h"
-
-
-
-//Cormen et al. suggest an implementation in which the vertices are
-// represented by index numbers.[2] Their representation uses an array indexed
-// by vertex number, in which the array cell for each vertex points to a
-// singly linked list of the neighboring vertices of that vertex.
-// In this representation, the nodes of the singly linked list may be
-// interpreted as edge objects; however, they do not store the full information
-// about each edge (they only store one of the two endpoints of the edge) and
-// in undirected graphs there will be two different linked list nodes for each edge
-// (one within the lists for each of the two endpoints of the edge).
-
 
 //we assume that vertices are numbers from zero on
 
@@ -49,6 +35,12 @@ graph* constructGraph(int V , int E){
     g->V = V;
     g->edges = (edge*)malloc(sizeof(edge) * E);
     return g;
+}
+
+graph* cloneGraph(const graph* g ){
+    graph* newGraph = constructGraph(g->V , g->E);
+    memcpy(newGraph->edges , g->edges , g->E * sizeof(edge));
+    return newGraph;
 }
 
 resultMST* constructResultMST(linkedListEdge* solutionFirst, linkedListEdge* solutionLast, int calls){
@@ -149,10 +141,7 @@ int quicksortMST(edge * edges , int left , int right){
     return quicksortMST(edges , left , r) + quicksortMST(edges , l , right);
 }
 
-
-
 //vozlisca so podana kot integerji od 0 do stevila vozlisc - 1
-
 void considerMST(resultMST* r , edge e , node* forest) {
     int u = e.dest;
     int v = e.source;
@@ -215,7 +204,7 @@ resultMST* MSTKruskalHybrid(graph* g , int left , int right, int solLen , node *
     }
     resultMST* leftsol = MSTKruskalHybrid(g , left , r , solLen, forest);
     if(l - r == 2){
-        considerMST(leftsol , e , forest);
+        considerMST(leftsol , g->edges[r + 1] , forest);
     }
     if(leftsol->solLength >= g->V - 1) return leftsol;
     resultMST* rightsol = MSTKruskalHybrid(g , l , right , leftsol->solLength , forest);
@@ -225,8 +214,7 @@ resultMST* MSTKruskalHybrid(graph* g , int left , int right, int solLen , node *
 }
 
 resultMST* callKruskalHybrid(graph* g){
-
-    //we need to make a forest of nodes so that we can then compute a MSTree recursively
+    //we need to make a forest of nodes so we can then compute a MSTree recursively
     node * forest = malloc( sizeof(node) * g->V );
     for(int i = 0 ; i < g->V ; i++){
         forest[i] = makeSet(i);

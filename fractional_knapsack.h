@@ -1,6 +1,3 @@
-//
-// Created by Nina on 20.8.2017.
-//
 
 #ifndef CLION_FRACTIONAL_KNAPSACK_H
 #define CLION_FRACTIONAL_KNAPSACK_H
@@ -33,5 +30,4 @@ void freeResultKnapsack(resultKnapsack* r);
 resultKnapsack* fractionalKnapsack(item* items , int W , int itemsLen);
 resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right ,int W , double profit);
 
-int testf();
 #endif //CLION_FRACTIONAL_KNAPSACK_H

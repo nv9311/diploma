@@ -1,6 +1,3 @@
-//
-// Created by Nina on 4.8.2017.
-//
 
 #include <stdlib.h>
 #include "test_coins.h"
@@ -39,7 +36,8 @@ void test_coins2_example(){
 }
 
 
-// Real tests
+// REAL TESTS
+
 int goal = 1271;
 int denominations[] = {1, 2, 5, 10, 50, 100, 200};
 int n_denominations = sizeof(denominations) / sizeof(int);

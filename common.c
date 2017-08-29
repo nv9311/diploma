@@ -1,6 +1,3 @@
-//
-// Created by Nina on 3.8.2017.
-//
 
 #include <stdlib.h>
 #include <mem.h>
@@ -11,7 +8,7 @@
 
 // LINKED-LIST FUNCTIONS
 void printLinkedListInt(const linkedListInt* linkedListFirst){
-    printf("Linked list: ");
+    printf("List of coins: ");
     while (linkedListFirst != NULL){
         printf("%d ", linkedListFirst->value);
         linkedListFirst = linkedListFirst->next;
@@ -81,13 +78,7 @@ void concatIntArray(int **array1, int *array1len, int *array2, int array2len){
     free(array2);
 }
 
-//GRAPH FUNCTIONS
-
-graph* cloneGraph(const graph* g ){
-    graph* newGraph = constructGraph(g->V , g->E);
-    memcpy(newGraph->edges , g->edges , g->E * sizeof(edge));
-    return newGraph;
-}
+//DISJOINT SET FUNCTIONS
 
 node makeSet(int x){
     node n;
@@ -120,6 +111,9 @@ void link(int x , int y , node * forest){
 void unionNodes(int x , int y , node * forest){
     link(findSet( x , forest ) , findSet( y , forest) , forest);
 }
+
+
+// QUICKSORT
 
 void swap(int* array, const int l, const int r){
     int tmp=array[l];

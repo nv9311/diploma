@@ -1,12 +1,8 @@
-//
-// Created by Nina on 10.8.2017.
-//
 
 #include <stdlib.h>
 #include <assert.h>
 #include "test_kruskal.h"
 #include "kruskal.h"
-#include "common.h"
 
 #define VERBOSE 1
 
@@ -93,12 +89,12 @@ void test_kruskalMSTHybrid_example(){
 }
 
 
-
 //REAL TESTS
-const int V = 5;
-//const int V = 30;
-//const int E = 14;
-int maxPrice = 10;
+
+//const int V = 30000;
+//int maxPrice = 5000;
+const int V = 10;
+int maxPrice = 15;
 graph* g = NULL;
 
 void test_kruskal_initialize() {

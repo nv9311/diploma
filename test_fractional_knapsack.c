@@ -1,6 +1,3 @@
-//
-// Created by Nina on 21.8.2017.
-//
 
 #include <stdlib.h>
 #include "fractional_knapsack.h"
@@ -32,23 +29,18 @@ void test_fractional_knapsack_hybrid_example(){
 
 
 //REAL TESTS
-/*
+
 int maxValue = 100;
 int maxWeight = 50;
 int numItems = 10;
-int W = 200;
- */
-/*
-int maxValue = 1000;
-int maxWeight = 100;
-int numItems = 500;
-int W = 10000;
-*/
-int maxValue = 100;
-int maxWeight = 30;
-int numItems = 6;
 int W = 100;
 
+/*
+int maxValue = 500;
+int maxWeight = 250;
+int numItems = 1000;
+int W = 8000;
+*/
 item* items = NULL;
 
 void test_fractional_knapsack_initialize(){

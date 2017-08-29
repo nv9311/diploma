@@ -1,6 +1,3 @@
-//
-// Created by Nina on 3.8.2017.
-//
 
 #include "common.h"
 

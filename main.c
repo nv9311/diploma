@@ -26,7 +26,7 @@ void do_test(const char* name, test_function_pointer f) {
     clock_t cpudelta = clock() - cpubegin;
     double cputime = (double)cpudelta * 1000 / CLOCKS_PER_SEC;
     printf("Average time: %lf ms\n", cputime / N_ITERS);
-    printf("Average calls: %lf\n", (double)calls / N_ITERS);
+    //printf("Average calls: %lf\n", (double)calls / N_ITERS);
     printf("\n");
 }
 
@@ -53,32 +53,28 @@ int main(){
     do_test("MST Kruskal Hybrid",&test_kruskalMSTHybrid);
 
     //activitySelector
-    /*
     do_test("Activity Selection Example" , &test_activity_selector_example);
     do_test("Activity Selection Hybrid Example" , &test_activity_selector_hybrid_example);
-    */
+
     test_activity_selection_initialize();
     do_test("Activity Selection" , &test_activity_selector);
     do_test("Activity Selection Hybrid" , &test_activity_selector_hybrid);
 
     //fractionalKnapsack
-    /*
     do_test("Fractional Knapsack Example" , &test_fractional_knapsack_example);
     do_test("Fractional Knapsack Hybrid Example" , &test_fractional_knapsack_hybrid_example);
-    */
+
     test_fractional_knapsack_initialize();
     do_test("Fractional Knapsack" , &test_fractional_knapsack);
     do_test("Fractional Knapsack Hybrid" , &test_fractional_knapsack_hybrid);
-    //testf();
 
     //taskScheduler
+    do_test("Task Scheduling Example" , &test_task_scheduler_example);
+    do_test("Task Scheduling Hybrid Example" , &test_task_scheduler_hybrid_example);
+
     test_task_scheduler_initialize();
     do_test("Task Scheduling" , &test_task_scheduler);
     do_test("Task Scheduling Hybrid" , &test_task_scheduler_hybrid);
-    /*
-    do_test("Task Scheduling Example" , &test_task_scheduler_example);
-    do_test("Task Scheduling Hybrid Example" , &test_task_scheduler_hybrid_example);
-     */
-    //test();
+
     return 0;
 }

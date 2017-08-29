@@ -1,10 +1,18 @@
-//
-// Created by Nina on 10.8.2017.
-//
 
 #ifndef CLION_KRUSKAL_H
 #define CLION_KRUSKAL_H
 
+typedef struct Edge{
+    int source;
+    int dest;
+    int weight;
+}edge;
+
+typedef struct Graph{
+    int V;
+    int E;
+    edge * edges;
+}graph;
 
 typedef struct linkedListEdge{
     edge e;
@@ -20,6 +28,7 @@ typedef struct resultMST{
 } resultMST;
 
 graph* constructGraph(int V , int E);
+graph* cloneGraph(const graph* g );
 resultMST* MSTKruskal(graph* g);
 resultMST* callKruskalHybrid(graph* g);
 void printResultMST(resultMST * result);

@@ -1,6 +1,3 @@
-//
-// Created by Nina on 20.8.2017.
-//
 
 #include <stdlib.h>
 #include <assert.h>
@@ -79,7 +76,7 @@ item* generateRandomItemsArray(int numItems , int maxValue , int maxWeight){
 void printLinkedListItems(const linkedListItem* linkedListFirst){
     printf("List of items taken: \n");
     while (linkedListFirst != NULL){
-        printf("item: (value: %d , weight: %d ) amount taken: %.2lf\n", linkedListFirst->i.value , linkedListFirst->i.weight , linkedListFirst->i.amountTaken);
+        printf("item: (value: %d , weight: %d ) amount taken: %lf\n", linkedListFirst->i.value , linkedListFirst->i.weight , linkedListFirst->i.amountTaken);
         linkedListFirst = linkedListFirst->next;
     }
     printf("\n");
@@ -140,6 +137,7 @@ resultKnapsack* fractionalKnapsack(item* items , int W , int itemsLen){
             appendItemToResult(&solutionFirst , &solutionLast , items[i]);
         }
         else{
+            if(W == 0.0) break;
             items[i].amountTaken = (double) W / items[i].weight;
             W -= items[i].amountTaken * items[i].weight;
             totalProfit += items[i].value * items[i].amountTaken;
@@ -160,6 +158,8 @@ void considerItems(resultKnapsack* r , item i){
         appendItemToResult(&(r->solutionFirst) , &(r->solutionLast) , i);
     }
     else{
+        //the if is here so it does not add an item if the weight is already full
+        if(r->W == 0.0) return;
         i.amountTaken = (double) r->W / i.weight;
         r->W -= i.amountTaken * i.weight;
         r->totalProfit += i.value * i.amountTaken;
@@ -190,7 +190,7 @@ resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right , in
     }
     resultKnapsack* leftsol = fractionalKnapsackHybrid(items , left , r , W , profit);
     if(l - r == 2){
-        considerItems(leftsol , i);
+        considerItems(leftsol , items[r + 1]);
     }
     if(leftsol->W <= 0) return leftsol;
     resultKnapsack* rightsol = fractionalKnapsackHybrid(items , l , right , leftsol->W , leftsol->totalProfit);
@@ -198,14 +198,5 @@ resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right , in
     return leftsol;
 }
 
-int testf(){
-    item items[3] ={{60 , 10} , {100 , 20},{120 , 30}};
-    resultKnapsack* result = fractionalKnapsack(items , 50 , 3);
-    //resultKnapsack* result = fractionalKnapsackHybrid(items , 0 , 2 , 50 , 0.0);
-    //printf("profit: %.2lf W: %d" , result->totalProfit , result->W);
-    printResultKnapsack(result);
-    freeResultKnapsack(result);
-    return 0;
-}
 
 

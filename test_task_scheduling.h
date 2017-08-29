@@ -1,6 +1,3 @@
-//
-// Created by Nina on 28.8.2017.
-//
 
 #ifndef CLION_TEST_TASK_SCHEDULING_H
 #define CLION_TEST_TASK_SCHEDULING_H

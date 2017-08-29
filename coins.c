@@ -1,6 +1,3 @@
-//
-// Created by Nina on 3.8.2017.
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +42,9 @@ void mergeResults(result* left, result* right) {
 }
 
 void printResult(result* r){
-    printf("Result: %d %d\n", r->goal, r->calls);
+    printf("Result:\n");
+    printf("Number of Calls: %d \n" , r->calls);
+    printf("Goal: %d \n" , r->goal);
     printLinkedListInt(r->solutionFirst);
 }
 

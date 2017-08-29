@@ -1,6 +1,3 @@
-//
-// Created by Nina on 21.8.2017.
-//
 
 #ifndef CLION_TASK_SCHEDULING_H
 #define CLION_TASK_SCHEDULING_H
@@ -28,8 +25,9 @@ task* cloneTasks(const task* tasks , int numTasks);
 task* generateRandomTasksArray(int numTasks , int maxPenalty);
 void printResultTasks(resultTasks * result);
 void freeResultTasks(resultTasks* r);
+
 resultTasks* taskScheduler(task* tasks , int numTasks);
 resultTasks* taskSchedulerHybrid(task* tasks , int numTasks);
-void test();
+
 
 #endif //CLION_TASK_SCHEDULING_H

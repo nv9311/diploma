@@ -1,6 +1,3 @@
-//
-// Created by Nina on 19.8.2017.
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -124,11 +121,7 @@ int quicksortActivities(activity* activities , int left , int right){
 
 resultActivities* activitySelector(activity* activities , int numActivities){
     int calls = quicksortActivities(activities , 0 , numActivities - 1);
-    /*
-    for(int i = 0 ; i < numActivities ; i++){
-        printf("%d  %d - %d\n" , activities[i].activityNumber, activities[i].startTime , activities[i].finishTime);
-    }
-     */
+
     linkedListActivity* solutionFirst = NULL;
     linkedListActivity* solutionLast = NULL;
 
@@ -178,7 +171,7 @@ resultActivities* activitySelectorHybrid(activity* activities , int left , int r
     }
     resultActivities* leftsol = activitySelectorHybrid(activities , left , r , finishTime);
     if(l - r == 2){
-        considerActivities(leftsol , a , finishTime);
+        considerActivities(leftsol , activities[r + 1] , finishTime);
     }
     resultActivities* rightsol = activitySelectorHybrid(activities , l , right , finishTime);
     mergeResultsActivities(leftsol , rightsol);
