@@ -27,10 +27,13 @@ typedef struct resultActivities{
 
 
 activity* cloneActivities(const activity* activities , int activitiesLen);
-resultActivities* activitySelectorHybrid(activity* activities , int left , int right, int* i);
-resultActivities* activitySelector(activity* activities , int numActivities);
+activity* generateRandomActivitiesArray(int numActivities , int maxStartTime , int maxDuration);
 void freeResultActivity(resultActivities* r);
 void printResultActivity(resultActivities * result);
+
+resultActivities* activitySelectorHybrid(activity* activities , int left , int right, int* i);
+resultActivities* activitySelector(activity* activities , int numActivities);
+
 int testa();
 
 #endif //CLION_ACTIVITY_SELECTION_H

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <mem.h>
 
 #include "common.h"
 #include "task_scheduling.h"
@@ -12,24 +13,6 @@
 //http://www.cs.toronto.edu/~siavosh/csc373h/files/TN2.pdf
 //http://www.cs.mun.ca/~kol/courses/6783-w13/lec3.pdf
 
-typedef struct Task{
-    int id;
-    int deadline;
-    int penalty;
-}task;
-
-typedef struct linkedListTask{
-    task task;
-    struct linkedListTask* next;
-}linkedListTask;
-
-typedef struct resultTasks{
-    linkedListTask* solutionFirst;
-    linkedListTask* solutionLast;
-    int calls;
-    int penalty;
-
-}resultTasks;
 
 void swapTasks(task* tasks , const int l, const int r){
     task tmp = tasks[l];
@@ -80,6 +63,23 @@ void mergeResultsTasks(resultTasks* left, resultTasks* right){
     free(right);
 }
 
+task* cloneTasks(const task* tasks , int numTasks){
+    task* newTasks = (task*)malloc(sizeof(task) * numTasks);
+    memcpy(newTasks, tasks, numTasks * sizeof(task));
+    return newTasks;
+}
+
+task* generateRandomTasksArray(int numTasks , int maxPenalty){
+    task* tasks = (task*)malloc(sizeof(task) * numTasks);
+    for (int i = 0 ; i < numTasks ; i++) {
+        //rand from 0 to numtasks-1 --> +1
+        tasks[i].id = i + 1;
+        tasks[i].deadline = (rand() % numTasks) + 1;
+        tasks[i].penalty = (rand() % maxPenalty) + 1;
+    }
+    return tasks;
+}
+
 void printLinkedListTasks(const linkedListTask* linkedListFirst){
     printf("List of Tasks in Schedule: \n");
     while (linkedListFirst != NULL){
@@ -104,7 +104,7 @@ void freeLinkedListTasks(linkedListTask* linkedListFirst){
     }
 }
 
-void freeResulTasks(resultTasks* r){
+void freeResultTasks(resultTasks* r){
     freeLinkedListTasks(r->solutionFirst);
     free(r);
 }
@@ -130,7 +130,7 @@ void considerTasks(resultTasks* result , task t , node* disjointSetForest ,  int
     int j = latestAvailable[findSet(t.deadline , disjointSetForest)];
     int oldAvailable = -1;
     if(j != 0){
-        //add task i-1 on interval (j-1,j)
+        //add task i-1 to interval (j-1,j)
         //schedule[j - 1] = tasks[i-1].id;
         appendTaskToResult(&(result->solutionFirst) , &(result->solutionLast) , t);
         oldAvailable = latestAvailable[ findSet(j - 1 , disjointSetForest) ];
@@ -139,6 +139,7 @@ void considerTasks(resultTasks* result , task t , node* disjointSetForest ,  int
     }
     else{
         result->penalty += t.penalty;
+        printf("penaltcons: %d id: %d dead: %d\n", result->penalty, t.id , t.deadline);
     }
 }
 
@@ -148,6 +149,7 @@ resultTasks* taskSchedulerHybridRecursive(task* tasks , int left , int right , n
     }
     task t = tasks[left];
     if(right == left){
+        printf("r=l %d dead: %d \n", t.id , t.deadline);
         resultTasks* result = constructResultTasks(NULL , NULL , penalty);
         considerTasks(result , t , disjointSetForest , latestAvailable);
         return result;
@@ -166,6 +168,7 @@ resultTasks* taskSchedulerHybridRecursive(task* tasks , int left , int right , n
     resultTasks* leftsol = taskSchedulerHybridRecursive(tasks , left , r , disjointSetForest , latestAvailable , penalty);
     if(l - r == 2){
         considerTasks(leftsol , t , disjointSetForest , latestAvailable);
+        printf("l-r: %d dead: %d \n", t.id , t.deadline);
     }
     resultTasks* rightsol = taskSchedulerHybridRecursive(tasks , l , right , disjointSetForest , latestAvailable , leftsol->penalty);
     mergeResultsTasks(leftsol, rightsol);
@@ -184,6 +187,9 @@ resultTasks* taskSchedulerHybrid(task* tasks , int numTasks){
     }
 
     resultTasks* result = taskSchedulerHybridRecursive(tasks , 0 , numTasks - 1 , disjointSetForest , latestAvailable , penalty);
+    free(latestAvailable);
+    free(disjointSetForest);
+    return result;
 }
 
 resultTasks* taskScheduler(task* tasks , int numTasks){
@@ -202,6 +208,12 @@ resultTasks* taskScheduler(task* tasks , int numTasks){
     }
 
     int calls = quicksortTasks(tasks , 0 , numTasks - 1);
+    printf("\n");
+    for(int i=0; i< numTasks;i++){
+        printf("quick: %d\n" , tasks[i].id);
+    }
+    printf("\n");
+
 
     for(int i = 1 ; i <= numTasks ; i++){
         j = latestAvailable[findSet(tasks[i - 1].deadline , disjointSetForest)];
@@ -215,10 +227,13 @@ resultTasks* taskScheduler(task* tasks , int numTasks){
         }
         else{
             penalty += tasks[i - 1].penalty;
+            printf("penal: %d id:%d dead: %d\n", penalty , tasks[i-1].id , tasks[i-1].deadline);
         }
     }
     resultTasks* result = constructResultTasks(solutionFirst , solutionLast , penalty);
     result->calls = calls;
+    free(latestAvailable);
+    free(disjointSetForest);
     return result;
 }
 void test(){
@@ -229,7 +244,7 @@ void test(){
     resultTasks* result = taskSchedulerHybrid(tasks , numTasks);
     //printIntArray(scheduler , numTasks);
     printResultTasks(result);
-    freeResulTasks(result);
+    freeResultTasks(result);
 }
 
 

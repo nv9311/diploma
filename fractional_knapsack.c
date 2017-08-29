@@ -66,6 +66,16 @@ item* cloneItems(const item* items , const int numItems){
     return newItems;
 }
 
+item* generateRandomItemsArray(int numItems , int maxValue , int maxWeight){
+    item* items = (item*)malloc(sizeof(item) * numItems);
+    for (int i = 0 ; i < numItems ; i++) {
+        //rand from 0 to numtasks-1 --> +1
+        items[i].value = (rand() % maxValue) + 1;
+        items[i].weight = (rand() % maxWeight) + 1;
+    }
+    return items;
+}
+
 void printLinkedListItems(const linkedListItem* linkedListFirst){
     printf("List of items taken: \n");
     while (linkedListFirst != NULL){

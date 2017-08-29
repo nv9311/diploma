@@ -7,7 +7,7 @@
 #include "common.h"
 #include "coins.h"
 
-#define VERBOSE 0
+#define VERBOSE 1
 
 // Example
 int goal_example = 350;
@@ -40,7 +40,7 @@ void test_coins2_example(){
 
 
 // Real tests
-int goal=1271;
+int goal = 1271;
 int denominations[] = {1, 2, 5, 10, 50, 100, 200};
 int n_denominations = sizeof(denominations) / sizeof(int);
 int coinsLen = 30000;

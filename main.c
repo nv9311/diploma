@@ -11,7 +11,7 @@
 
 #include "test_fractional_knapsack.h"
 
-#include "task_scheduling.h"
+#include "test_task_scheduling.h"
 
 int N_ITERS = 1;
 
@@ -44,21 +44,41 @@ int main(){
     do_test("Coins2", &test_coins2);
 
     //kruskal
+    test_kruskal_initialize_example();
+    do_test("MST Kruskal Example",&test_kruskalMST_example);
+    do_test("MST Kruskal Hybrid Example",&test_kruskalMSTHybrid_example);
+
     test_kruskal_initialize();
     do_test("MST Kruskal",&test_kruskalMST);
     do_test("MST Kruskal Hybrid",&test_kruskalMSTHybrid);
 
     //activitySelector
+    /*
+    do_test("Activity Selection Example" , &test_activity_selector_example);
+    do_test("Activity Selection Hybrid Example" , &test_activity_selector_hybrid_example);
+    */
     test_activity_selection_initialize();
     do_test("Activity Selection" , &test_activity_selector);
     do_test("Activity Selection Hybrid" , &test_activity_selector_hybrid);
 
     //fractionalKnapsack
+    /*
+    do_test("Fractional Knapsack Example" , &test_fractional_knapsack_example);
+    do_test("Fractional Knapsack Hybrid Example" , &test_fractional_knapsack_hybrid_example);
+    */
     test_fractional_knapsack_initialize();
     do_test("Fractional Knapsack" , &test_fractional_knapsack);
     do_test("Fractional Knapsack Hybrid" , &test_fractional_knapsack_hybrid);
     //testf();
 
-    test();
+    //taskScheduler
+    test_task_scheduler_initialize();
+    do_test("Task Scheduling" , &test_task_scheduler);
+    do_test("Task Scheduling Hybrid" , &test_task_scheduler_hybrid);
+    /*
+    do_test("Task Scheduling Example" , &test_task_scheduler_example);
+    do_test("Task Scheduling Hybrid Example" , &test_task_scheduler_hybrid_example);
+     */
+    //test();
     return 0;
 }

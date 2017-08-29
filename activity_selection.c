@@ -66,6 +66,17 @@ activity* cloneActivities(const activity* activities , int activitiesLen){
     return newActivities;
 }
 
+activity* generateRandomActivitiesArray(int numActivities , int maxStartTime , int maxDuration){
+    activity* activites = (activity*)malloc(sizeof(activity) * numActivities);
+    for (int i = 0 ; i < numActivities ; i++) {
+        //rand from 0 to numtasks-1 --> +1
+        activites[i].activityNumber = i;
+        activites[i].startTime = rand() % maxStartTime;
+        activites[i].finishTime = activites[i].startTime + (rand() % maxDuration) +1;
+    }
+    return activites;
+}
+
 void printLinkedListActivity(const linkedListActivity* linkedListFirst){
     printf("List of compatible Activities: \n");
     while (linkedListFirst != NULL){

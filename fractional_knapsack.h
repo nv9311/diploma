@@ -24,12 +24,14 @@ typedef struct resultKnapsack{
     int W;
 }resultKnapsack;
 
-resultKnapsack* fractionalKnapsack(item* items , int W , int itemsLen);
-resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right ,int W , double profit);
+
 item* cloneItems(const item* items , int numItems);
+item* generateRandomItemsArray(int numItems , int maxValue , int maxWeight);
 void printResultKnapsack(resultKnapsack * result);
 void freeResultKnapsack(resultKnapsack* r);
 
+resultKnapsack* fractionalKnapsack(item* items , int W , int itemsLen);
+resultKnapsack* fractionalKnapsackHybrid(item* items , int left , int right ,int W , double profit);
 
 int testf();
 #endif //CLION_FRACTIONAL_KNAPSACK_H
